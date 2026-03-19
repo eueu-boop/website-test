@@ -61,7 +61,7 @@
       background:var(--light);
       display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);
       overflow:hidden;transition:background 0.4s;
-    ;position:relative}
+    }
     .work-card:hover .work-img{background:#d6dafc;}
     .work-img img{width:100%;height:100%;object-fit:cover;grid-column:1/-1;grid-row:1/-1;display:block;}
     .wic{border-right:1px solid rgba(0,0,0,0.07);border-bottom:1px solid rgba(0,0,0,0.07);transition:border-color 0.4s;}
@@ -80,8 +80,7 @@
     .modal-overlay{
       position:fixed;inset:0;z-index:1000;
       background:rgba(13,13,13,0.92);
-      overflow-y:auto;
-      -webkit-overflow-scrolling:touch;
+      overflow-y:auto;-webkit-overflow-scrolling:touch;
       opacity:0;pointer-events:none;
       transition:opacity 0.3s ease;
       padding:60px 24px;
@@ -180,14 +179,18 @@
         /* Dual vertical video hero */
     .modal-hero-dual-vertical{
       width:100%;background:var(--black);
-      display:flex;justify-content:center;align-items:center;
-      overflow:hidden;max-height:75vh;gap:1px;
+      display:flex;flex-direction:row;
+      justify-content:center;align-items:stretch;
+      gap:2px;overflow:hidden;
     }
     .modal-hero-dual-vertical video{
-      height:75vh;max-height:75vh;width:auto;display:block;flex:0 0 auto;
+      flex:1;width:50%;max-height:75vh;
+      object-fit:cover;display:block;background:var(--black);
     }
     @media(max-width:768px){
-      .modal-hero-dual-vertical video{height:48vw;max-height:48vw;}
+      .modal-hero-dual-vertical{flex-direction:column;}
+      .modal-hero-dual-vertical video{width:100%;max-height:50vw;}
+    }
     }
     }
     .modal-hero-vertical{
@@ -223,7 +226,12 @@
       transition:transform 0.4s ease;
     }
     .modal-photo-item:hover img{transform:scale(1.03);}
-    .modal-product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;border-top:none;}
+    .modal-product-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:2px;
+      background:var(--black);
+    }
     .modal-product-item{
       overflow:hidden;
       background:var(--black);
@@ -238,29 +246,15 @@
       .modal-meta{flex-direction:column;gap:16px;padding:20px;}
       .modal-photos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;}
       .modal-photo-item:nth-child(2n){border-right:none;}
-      .modal-product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;border-top:none;}
+      .modal-product-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:2px;
+      background:var(--black);
+    }
       .modal-product-item:nth-child(2n){border-right:none;}
       .modal-hero-vertical video{height:55vw;max-height:55vw;}
     }
-  
-    /* Dual vertical layout */
-    .modal-hero-dual-vertical{
-      width:100%;background:var(--black);
-      display:flex;justify-content:center;align-items:center;
-      overflow:hidden;max-height:75vh;gap:2px;
-    }
-    .modal-hero-dual-vertical .video-wrap{
-      flex:1;max-width:50%;
-    }
-    .modal-hero-dual-vertical .video-wrap video{
-      height:75vh;max-height:75vh;width:100%;object-fit:cover;
-    }
-    @media(max-width:768px){
-      .modal-hero-dual-vertical{flex-direction:column;max-height:none;}
-      .modal-hero-dual-vertical .video-wrap{max-width:100%;}
-      .modal-hero-dual-vertical .video-wrap video{height:50vw;max-height:50vw;}
-    }
-    
   </style>
 </head>
 <body>
@@ -348,22 +342,8 @@
     <div class="modal-project" id="modal-frequencies">
       <!-- VERTICAL VIDEO: rename your file to "frequencies-hero.mp4" -->
       <div class="modal-hero-dual-vertical">
-        <video autoplay muted loop playsinline src="frequencies-hero-01.mp4" controls controls></video>
-          <span class="video-time">0:00</span>
-          <div class="video-volume" onclick="setVolume(event,this)">
-            <div class="video-volume-fill"></div>
-          </div>
-          <button class="video-btn mute-btn" onclick="toggleMute(this)">🔇</button>
-        </div>
-      </div>
-        <video autoplay muted loop playsinline src="frequencies-hero-02.mp4" controls controls></video>
-          <span class="video-time">0:00</span>
-          <div class="video-volume" onclick="setVolume(event,this)">
-            <div class="video-volume-fill"></div>
-          </div>
-          <button class="video-btn mute-btn" onclick="toggleMute(this)">🔇</button>
-        </div>
-      </div>
+        <video autoplay muted loop playsinline controls src="frequencies-hero-01.mp4"></video>
+        <video autoplay muted loop playsinline controls src="frequencies-hero-02.mp4"></video>
       </div>
       <div class="modal-header">
         <div class="modal-header-left">
@@ -433,14 +413,7 @@
     <div class="modal-project" id="modal-complexcon">
       <!-- VERTICAL VIDEO: rename your file to "complexcon-hero.mp4" -->
       <div class="modal-hero-media">
-        <video autoplay muted loop playsinline src="complexcon-hero.mp4" controls controls></video>
-          <span class="video-time">0:00</span>
-          <div class="video-volume" onclick="setVolume(event,this)">
-            <div class="video-volume-fill"></div>
-          </div>
-          <button class="video-btn mute-btn" onclick="toggleMute(this)">🔇</button>
-        </div>
-      </div>
+        <video autoplay muted loop playsinline controls src="complexcon-hero.mp4"></video>
       </div>
       <div class="modal-header">
         <div class="modal-header-left">
@@ -510,14 +483,7 @@
     <div class="modal-project" id="modal-boltbolt">
       <!-- HERO IMAGE: rename your file to "boltbolt-hero.jpg" -->
       <div class="modal-hero-media">
-        <video autoplay muted loop playsinline src="boltbolt-hero.mp4" controls controls></video>
-          <span class="video-time">0:00</span>
-          <div class="video-volume" onclick="setVolume(event,this)">
-            <div class="video-volume-fill"></div>
-          </div>
-          <button class="video-btn mute-btn" onclick="toggleMute(this)">🔇</button>
-        </div>
-      </div>
+        <video autoplay muted loop playsinline controls src="boltbolt-hero.mp4"></video>
       </div>
       <div class="modal-header">
         <div class="modal-header-left">
@@ -584,7 +550,7 @@
       </div>
     <div class="modal-project" id="modal-keyboard">
       <div class="modal-hero-media">
-        <img src="keyboard-hero.jpg" alt="Angry Miao x Keeb Life">
+        <img src="keyboard-01.jpg" alt="Angry Miao x Keeb Life">
       </div>
       <div class="modal-header">
         <div class="modal-header-left">
@@ -702,18 +668,8 @@
         </div>
       </div>
       <div class="modal-photos">
-        <div class="modal-photos-grid">
-          <div class="modal-photo-item"><img src="soloist-01.JPG" alt=""></div>
-        </div>
         <div class="modal-hero-vertical">
-          <video autoplay muted loop playsinline src="soloist-hero.mp4" controls controls></video>
-          <span class="video-time">0:00</span>
-          <div class="video-volume" onclick="setVolume(event,this)">
-            <div class="video-volume-fill"></div>
-          </div>
-          <button class="video-btn mute-btn" onclick="toggleMute(this)">🔇</button>
-        </div>
-      </div>
+          <video autoplay muted loop playsinline controls src="soloist-hero.mp4"></video>
         </div>
       </div>
     </div>
@@ -731,13 +687,9 @@
   function closeModal(){
     document.getElementById('modalOverlay').classList.remove('open');
     document.body.style.overflow='';
-    document.querySelectorAll('.modal-project video').forEach(function(v){v.pause();v.currentTime=0;});
   }
   document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
 </script>
-
-
-
 </body>
 </html>
