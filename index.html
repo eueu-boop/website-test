@@ -716,47 +716,6 @@
       .modal-section{padding:28px 20px;}
     }
   
-    /* ── VIDEO PLAYER CONTROLS ── */
-    .video-wrap{position:relative;background:var(--black);}
-    .video-wrap video{display:block;width:100%;}
-    .video-controls{
-      position:absolute;bottom:0;left:0;right:0;
-      display:flex;align-items:center;gap:12px;
-      padding:12px 16px;
-      background:linear-gradient(transparent,rgba(0,0,0,0.6));
-      opacity:0;transition:opacity 0.3s;
-    }
-    .video-wrap:hover .video-controls{opacity:1;}
-    .video-wrap.paused .video-controls{opacity:1;}
-    .video-btn{
-      background:none;border:none;cursor:pointer;
-      color:#fff;font-size:16px;line-height:1;
-      padding:4px;flex-shrink:0;
-      font-family:var(--sans);
-      opacity:0.8;transition:opacity 0.2s;
-    }
-    .video-btn:hover{opacity:1;}
-    .video-progress{
-      flex:1;height:3px;background:rgba(255,255,255,0.25);
-      border-radius:2px;cursor:pointer;position:relative;
-    }
-    .video-progress-fill{
-      height:100%;background:#fff;border-radius:2px;
-      width:0%;pointer-events:none;
-      transition:width 0.1s linear;
-    }
-    .video-volume{
-      width:64px;height:3px;background:rgba(255,255,255,0.25);
-      border-radius:2px;cursor:pointer;
-    }
-    .video-volume-fill{
-      height:100%;background:#fff;border-radius:2px;width:100%;
-      pointer-events:none;
-    }
-    .video-time{
-      font-size:11px;color:rgba(255,255,255,0.7);
-      white-space:nowrap;letter-spacing:0.03em;
-    }
     /* Dual vertical layout */
     .modal-hero-dual-vertical{
       width:100%;background:var(--black);
@@ -922,7 +881,7 @@
 <section id="contact">
   <div class="contact-body">
     <p class="contact-label">Get in touch</p>
-    <a href="mailto:hello@whatnow.works" class="contact-email">hello@whatnow.works</a>
+    <a href="/cdn-cgi/l/email-protection#056d6069696a45726d64716b6a722b726a776e76" class="contact-email"><span class="__cf_email__" data-cfemail="5139343d3d3e11263930253f3e267f263e233a22">[email&#160;protected]</span></a>
     <a href="#start" class="contact-start">Start a project &rarr;</a>
   </div>
 </section>
@@ -990,7 +949,7 @@
 </footer>
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function() {
   var form = document.getElementById('projectForm');
   if (!form) return;
@@ -1078,13 +1037,7 @@
     <div class="modal-project" id="modal-frequencies">
       <!-- VERTICAL VIDEO: rename your file to "frequencies-hero.mp4" -->
       <div class="modal-hero-dual-vertical">
-        <div class="video-wrap paused" data-chain="true">
-        <video autoplay muted loop playsinline src="frequencies-hero-01.mp4"></video>
-        <div class="video-controls">
-          <button class="video-btn play-btn" onclick="togglePlay(this)">▶</button>
-          <div class="video-progress" onclick="seekVideo(event,this)">
-            <div class="video-progress-fill"></div>
-          </div>
+        <video autoplay muted loop playsinline src="frequencies-hero-01.mp4" controls controls></video>
           <span class="video-time">0:00</span>
           <div class="video-volume" onclick="setVolume(event,this)">
             <div class="video-volume-fill"></div>
@@ -1092,13 +1045,7 @@
           <button class="video-btn mute-btn" onclick="toggleMute(this)">🔇</button>
         </div>
       </div>
-        <div class="video-wrap paused" data-chain="true">
-        <video autoplay muted loop playsinline src="frequencies-hero-02.mp4"></video>
-        <div class="video-controls">
-          <button class="video-btn play-btn" onclick="togglePlay(this)">▶</button>
-          <div class="video-progress" onclick="seekVideo(event,this)">
-            <div class="video-progress-fill"></div>
-          </div>
+        <video autoplay muted loop playsinline src="frequencies-hero-02.mp4" controls controls></video>
           <span class="video-time">0:00</span>
           <div class="video-volume" onclick="setVolume(event,this)">
             <div class="video-volume-fill"></div>
@@ -1175,13 +1122,7 @@
     <div class="modal-project" id="modal-complexcon">
       <!-- VERTICAL VIDEO: rename your file to "complexcon-hero.mp4" -->
       <div class="modal-hero-media">
-        <div class="video-wrap paused">
-        <video autoplay muted loop playsinline src="complexcon-hero.mp4"></video>
-        <div class="video-controls">
-          <button class="video-btn play-btn" onclick="togglePlay(this)">▶</button>
-          <div class="video-progress" onclick="seekVideo(event,this)">
-            <div class="video-progress-fill"></div>
-          </div>
+        <video autoplay muted loop playsinline src="complexcon-hero.mp4" controls controls></video>
           <span class="video-time">0:00</span>
           <div class="video-volume" onclick="setVolume(event,this)">
             <div class="video-volume-fill"></div>
@@ -1258,13 +1199,7 @@
     <div class="modal-project" id="modal-boltbolt">
       <!-- HERO IMAGE: rename your file to "boltbolt-hero.jpg" -->
       <div class="modal-hero-media">
-        <div class="video-wrap paused">
-        <video autoplay muted loop playsinline src="boltbolt-hero.mp4"></video>
-        <div class="video-controls">
-          <button class="video-btn play-btn" onclick="togglePlay(this)">▶</button>
-          <div class="video-progress" onclick="seekVideo(event,this)">
-            <div class="video-progress-fill"></div>
-          </div>
+        <video autoplay muted loop playsinline src="boltbolt-hero.mp4" controls controls></video>
           <span class="video-time">0:00</span>
           <div class="video-volume" onclick="setVolume(event,this)">
             <div class="video-volume-fill"></div>
@@ -1424,8 +1359,4 @@
     else if (!isValidName(nameInput.value)) { showError(nameInput, 'Please enter a valid name (letters only).'); valid = false; }
     else clearError(nameInput);
 
-    if (!emailInput.value.trim()) { showError(emailInput, 'Email is required.'); valid = false; }
-    else if (!isValidEmail(emailInput.value)) { showError(emailInput, 'Please enter a valid email address.'); valid = false; }
-    else clearError(emailInput);
-</body>
-</html>
+    if (!emailInput.value.trim

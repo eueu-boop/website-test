@@ -243,47 +243,6 @@
       .modal-hero-vertical video{height:55vw;max-height:55vw;}
     }
   
-    /* ── VIDEO PLAYER CONTROLS ── */
-    .video-wrap{position:relative;background:var(--black);}
-    .video-wrap video{display:block;width:100%;}
-    .video-controls{
-      position:absolute;bottom:0;left:0;right:0;
-      display:flex;align-items:center;gap:12px;
-      padding:12px 16px;
-      background:linear-gradient(transparent,rgba(0,0,0,0.6));
-      opacity:0;transition:opacity 0.3s;
-    }
-    .video-wrap:hover .video-controls{opacity:1;}
-    .video-wrap.paused .video-controls{opacity:1;}
-    .video-btn{
-      background:none;border:none;cursor:pointer;
-      color:#fff;font-size:16px;line-height:1;
-      padding:4px;flex-shrink:0;
-      font-family:var(--sans);
-      opacity:0.8;transition:opacity 0.2s;
-    }
-    .video-btn:hover{opacity:1;}
-    .video-progress{
-      flex:1;height:3px;background:rgba(255,255,255,0.25);
-      border-radius:2px;cursor:pointer;position:relative;
-    }
-    .video-progress-fill{
-      height:100%;background:#fff;border-radius:2px;
-      width:0%;pointer-events:none;
-      transition:width 0.1s linear;
-    }
-    .video-volume{
-      width:64px;height:3px;background:rgba(255,255,255,0.25);
-      border-radius:2px;cursor:pointer;
-    }
-    .video-volume-fill{
-      height:100%;background:#fff;border-radius:2px;width:100%;
-      pointer-events:none;
-    }
-    .video-time{
-      font-size:11px;color:rgba(255,255,255,0.7);
-      white-space:nowrap;letter-spacing:0.03em;
-    }
     /* Dual vertical layout */
     .modal-hero-dual-vertical{
       width:100%;background:var(--black);
@@ -389,13 +348,7 @@
     <div class="modal-project" id="modal-frequencies">
       <!-- VERTICAL VIDEO: rename your file to "frequencies-hero.mp4" -->
       <div class="modal-hero-dual-vertical">
-        <div class="video-wrap paused" data-chain="true">
-        <video autoplay muted loop playsinline src="frequencies-hero-01.mp4"></video>
-        <div class="video-controls">
-          <button class="video-btn play-btn" onclick="togglePlay(this)">▶</button>
-          <div class="video-progress" onclick="seekVideo(event,this)">
-            <div class="video-progress-fill"></div>
-          </div>
+        <video autoplay muted loop playsinline src="frequencies-hero-01.mp4" controls controls></video>
           <span class="video-time">0:00</span>
           <div class="video-volume" onclick="setVolume(event,this)">
             <div class="video-volume-fill"></div>
@@ -403,13 +356,7 @@
           <button class="video-btn mute-btn" onclick="toggleMute(this)">🔇</button>
         </div>
       </div>
-        <div class="video-wrap paused" data-chain="true">
-        <video autoplay muted loop playsinline src="frequencies-hero-02.mp4"></video>
-        <div class="video-controls">
-          <button class="video-btn play-btn" onclick="togglePlay(this)">▶</button>
-          <div class="video-progress" onclick="seekVideo(event,this)">
-            <div class="video-progress-fill"></div>
-          </div>
+        <video autoplay muted loop playsinline src="frequencies-hero-02.mp4" controls controls></video>
           <span class="video-time">0:00</span>
           <div class="video-volume" onclick="setVolume(event,this)">
             <div class="video-volume-fill"></div>
@@ -486,13 +433,7 @@
     <div class="modal-project" id="modal-complexcon">
       <!-- VERTICAL VIDEO: rename your file to "complexcon-hero.mp4" -->
       <div class="modal-hero-media">
-        <div class="video-wrap paused">
-        <video autoplay muted loop playsinline src="complexcon-hero.mp4"></video>
-        <div class="video-controls">
-          <button class="video-btn play-btn" onclick="togglePlay(this)">▶</button>
-          <div class="video-progress" onclick="seekVideo(event,this)">
-            <div class="video-progress-fill"></div>
-          </div>
+        <video autoplay muted loop playsinline src="complexcon-hero.mp4" controls controls></video>
           <span class="video-time">0:00</span>
           <div class="video-volume" onclick="setVolume(event,this)">
             <div class="video-volume-fill"></div>
@@ -569,13 +510,7 @@
     <div class="modal-project" id="modal-boltbolt">
       <!-- HERO IMAGE: rename your file to "boltbolt-hero.jpg" -->
       <div class="modal-hero-media">
-        <div class="video-wrap paused">
-        <video autoplay muted loop playsinline src="boltbolt-hero.mp4"></video>
-        <div class="video-controls">
-          <button class="video-btn play-btn" onclick="togglePlay(this)">▶</button>
-          <div class="video-progress" onclick="seekVideo(event,this)">
-            <div class="video-progress-fill"></div>
-          </div>
+        <video autoplay muted loop playsinline src="boltbolt-hero.mp4" controls controls></video>
           <span class="video-time">0:00</span>
           <div class="video-volume" onclick="setVolume(event,this)">
             <div class="video-volume-fill"></div>
@@ -771,13 +706,7 @@
           <div class="modal-photo-item"><img src="soloist-01.JPG" alt=""></div>
         </div>
         <div class="modal-hero-vertical">
-          <div class="video-wrap paused">
-        <video autoplay muted loop playsinline src="soloist-hero.mp4"></video>
-        <div class="video-controls">
-          <button class="video-btn play-btn" onclick="togglePlay(this)">▶</button>
-          <div class="video-progress" onclick="seekVideo(event,this)">
-            <div class="video-progress-fill"></div>
-          </div>
+          <video autoplay muted loop playsinline src="soloist-hero.mp4" controls controls></video>
           <span class="video-time">0:00</span>
           <div class="video-volume" onclick="setVolume(event,this)">
             <div class="video-volume-fill"></div>
@@ -808,109 +737,7 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
 </script>
 
-<script>
-// ── VIDEO PLAYER ──
-function fmt(s){var m=Math.floor(s/60);return m+':'+(Math.floor(s%60)<10?'0':'')+Math.floor(s%60);}
 
-function togglePlay(btn){
-  var wrap=btn.closest('.video-wrap');
-  var vids=wrap.querySelectorAll('video');
-  var vid=vids[0];
-  if(vid.paused){
-    vid.play();
-    btn.textContent='⏸';
-    wrap.classList.remove('paused');
-  } else {
-    vid.pause();
-    btn.textContent='▶';
-    wrap.classList.add('paused');
-  }
-}
-
-function toggleMute(btn){
-  var vid=btn.closest('.video-wrap').querySelector('video');
-  vid.muted=!vid.muted;
-  btn.textContent=vid.muted?'🔇':'🔊';
-  var vfill=btn.closest('.video-controls').querySelector('.video-volume-fill');
-  if(vfill) vfill.style.width=vid.muted?'0%':'100%';
-}
-
-function seekVideo(e,bar){
-  var vid=bar.closest('.video-wrap').querySelector('video');
-  var rect=bar.getBoundingClientRect();
-  var pct=(e.clientX-rect.left)/rect.width;
-  vid.currentTime=pct*vid.duration;
-}
-
-function setVolume(e,bar){
-  var wrap=bar.closest('.video-wrap');
-  var vid=wrap.querySelector('video');
-  var rect=bar.getBoundingClientRect();
-  var pct=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
-  vid.volume=pct;
-  vid.muted=(pct===0);
-  bar.querySelector('.video-volume-fill').style.width=(pct*100)+'%';
-  var muteBtn=wrap.querySelector('.mute-btn');
-  if(muteBtn) muteBtn.textContent=vid.muted?'🔇':'🔊';
-}
-
-// Hook up progress + time display for each video
-function initVideoWrap(wrap){
-  var vid=wrap.querySelector('video');
-  if(!vid||wrap._init) return;
-  wrap._init=true;
-  var fill=wrap.querySelector('.video-progress-fill');
-  var time=wrap.querySelector('.video-time');
-  vid.addEventListener('timeupdate',function(){
-    if(vid.duration){
-      fill.style.width=(vid.currentTime/vid.duration*100)+'%';
-      time.textContent=fmt(vid.currentTime)+' / '+fmt(vid.duration);
-    }
-  });
-  vid.addEventListener('ended',function(){
-    wrap.querySelector('.play-btn').textContent='▶';
-    wrap.classList.add('paused');
-  });
-}
-
-// Frequencies sequential playback
-function initFrequenciesChain(){
-  var dual=document.querySelector('.modal-hero-dual-vertical');
-  if(!dual) return;
-  var wraps=dual.querySelectorAll('.video-wrap');
-  if(wraps.length<2) return;
-  var v1=wraps[0].querySelector('video');
-  var v2=wraps[1].querySelector('video');
-  // Hide second video controls initially, show only play on first
-  wraps[1].style.opacity='0.4';
-  wraps[1].querySelector('.play-btn').disabled=true;
-  v1.addEventListener('ended',function(){
-    // First finished — start second
-    wraps[1].style.opacity='1';
-    wraps[1].querySelector('.play-btn').disabled=false;
-    wraps[1].querySelector('.play-btn').textContent='⏸';
-    wraps[1].classList.remove('paused');
-    v2.muted=v1.muted;
-    v2.play();
-    // Update first wrap UI
-    wraps[0].querySelector('.play-btn').textContent='▶';
-    wraps[0].classList.add('paused');
-  });
-}
-
-// Init all video wraps on modal open
-var _origOpenModal=openModal;
-openModal=function(key){
-  _origOpenModal(key);
-  setTimeout(function(){
-    document.querySelectorAll('.modal-project[style*="block"] .video-wrap').forEach(initVideoWrap);
-    initFrequenciesChain();
-  },100);
-};
-
-// Init any already-visible wraps
-document.querySelectorAll('.video-wrap').forEach(initVideoWrap);
-</script>
 
 </body>
 </html>
