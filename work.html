@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Work — WHAT NOW STUDIOS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.cdnfonts.com/css/open-sauce-sans" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --white:#ffffff;--black:#0d0d0d;--mid:#888;
+      --light:#f7f7f5;--rule:#e4e4e0;--blue:#0e1fea;
+      --sans:'Open Sauce Sans',sans-serif;
+    }
+    html{scroll-behavior:smooth;}
+    body{background:var(--white);color:var(--black);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;}
+    a{color:inherit;text-decoration:none;}
+
+    /* NAV */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      background:var(--white);border-bottom:1px solid var(--rule);
+      display:flex;justify-content:space-between;align-items:center;
+      padding:0 40px;height:56px;
+    }
+    .nav-left{display:flex;align-items:center;gap:14px;}
+    .nav-logo img{height:32px;width:auto;display:block;}
+    .nav-divider{width:1px;height:20px;background:var(--rule);}
+    .nav-studio{font-size:11px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);}
+    .nav-links{display:flex;gap:36px;list-style:none;}
+    .nav-links a{font-size:12px;letter-spacing:0.06em;color:var(--black);transition:color 0.2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--blue);}
+
+    /* PAGE HEADER */
+    .page-header{
+      padding:56px 40px 0;
+      border-bottom:1px solid var(--rule);
+      display:flex;justify-content:space-between;align-items:flex-end;
+      padding-bottom:20px;
+      margin-top:56px;
+    }
+    .page-title{font-size:clamp(20px,2.2vw,32px);font-weight:500;letter-spacing:-0.01em;}
+    .page-count{font-size:12px;color:var(--mid);}
+
+    /* WORK GRID */
+    .work-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      border-top:1px solid var(--rule);
+    }
+    .work-card{
+      border-right:1px solid var(--rule);
+      border-bottom:1px solid var(--rule);
+      cursor:pointer;
+      transition:opacity 0.2s;
+    }
+    .work-card:nth-child(3n){border-right:none;}
+    .work-img{
+      width:100%;aspect-ratio:4/3;
+      background:var(--light);
+      display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);
+      overflow:hidden;transition:background 0.4s;
+    }
+    .work-card:hover .work-img{background:#d6dafc;}
+    .work-img img{width:100%;height:100%;object-fit:cover;grid-column:1/-1;grid-row:1/-1;display:block;}
+    .wic{border-right:1px solid rgba(0,0,0,0.07);border-bottom:1px solid rgba(0,0,0,0.07);transition:border-color 0.4s;}
+    .work-card:hover .wic{border-color:rgba(14,31,234,0.15);}
+    .wic:nth-child(4n){border-right:none;}
+    .wic:nth-child(n+10){border-bottom:none;}
+    .work-body{padding:20px 24px 28px;border-top:1px solid var(--rule);}
+    .work-year{font-size:11px;color:var(--mid);letter-spacing:0.08em;margin-bottom:6px;}
+    .work-client{font-size:16px;font-weight:500;margin-bottom:6px;}
+    .work-tagline{font-size:13px;color:var(--mid);line-height:1.55;margin-bottom:16px;}
+    .work-tags{display:flex;flex-wrap:wrap;gap:6px;}
+    .tag{font-size:11px;border:1px solid var(--rule);padding:4px 11px;border-radius:100px;color:var(--mid);letter-spacing:0.04em;}
+    .work-card:hover .tag{border-color:rgba(14,31,234,0.3);color:var(--blue);}
+
+    /* MODAL */
+    .modal-overlay{
+      position:fixed;inset:0;z-index:1000;
+      background:rgba(13,13,13,0.92);
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      opacity:0;pointer-events:none;
+      transition:opacity 0.3s ease;
+      padding:60px 24px;
+    }
+    .modal-overlay.open{opacity:1;pointer-events:all;}
+    .modal{
+      background:var(--white);
+      width:100%;max-width:900px;
+      margin:0 auto;
+      position:relative;
+    }
+    .modal-close{
+      position:sticky;top:0;float:right;
+      margin:16px 16px 0 0;
+      font-size:18px;
+      color:var(--mid);cursor:pointer;background:transparent;border:none;
+      font-family:var(--sans);transition:color 0.2s;
+      z-index:10;display:block;padding:4px 0 4px 16px;
+      line-height:1;
+    }
+    .modal-close:hover{color:var(--black);}
+    .modal-hero{width:100%;aspect-ratio:16/9;background:var(--light);display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(4,1fr);overflow:hidden;}
+    .modal-hero img{width:100%;height:100%;object-fit:cover;grid-column:1/-1;grid-row:1/-1;display:block;}
+    .mhc{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+    .mhc:nth-child(5n){border-right:none;}
+    .mhc:nth-child(n+16){border-bottom:none;}
+    .modal-header{
+      padding:36px 40px 28px;
+      border-bottom:1px solid var(--rule);
+      display:flex;justify-content:space-between;align-items:flex-start;
+      background:var(--white);
+    }
+    
+    
+    .modal-header-left{flex:1;min-width:0;}
+    .modal-client{font-size:clamp(28px,3.5vw,48px);font-weight:600;letter-spacing:-0.02em;line-height:1.1;color:var(--black);}
+    .modal-tagline{font-size:clamp(16px,2vw,28px);font-weight:300;color:var(--mid);margin-top:6px;line-height:1.25;letter-spacing:-0.01em;}
+    .modal-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:280px;padding-left:32px;flex-shrink:0;}
+    .modal-header .tag{border-color:var(--rule);color:var(--mid);}
+    .modal-body{display:grid;grid-template-columns:1fr 1fr;}
+    .modal-section{padding:36px 40px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+    .modal-section:nth-child(2n){border-right:none;}
+    .modal-section:nth-child(3),.modal-section:nth-child(4){border-bottom:1px solid var(--rule);}
+    .modal-section-full{grid-column:1/-1;border-right:none;border-bottom:none;}
+    .modal-project{display:none;}
+    
+    .modal-section-label{
+      font-size:11px;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      color:var(--black);
+      font-weight:500;
+      margin-bottom:16px;
+      padding-bottom:10px;
+      border-bottom:1px solid var(--rule);
+    }
+    .modal-section p{font-size:13px;line-height:1.85;color:var(--mid);}
+    .modal-section p strong{color:var(--black);font-weight:500;}
+    .modal-section ul{list-style:none;padding:0;}
+    .modal-section ul li{font-size:13px;line-height:1.85;color:var(--mid);padding-left:16px;position:relative;}
+    .modal-section ul li::before{content:"—";position:absolute;left:0;color:var(--rule);}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--rule);padding:20px 40px;display:flex;justify-content:space-between;align-items:center;}
+    .footer-bar span{font-size:11px;color:var(--mid);letter-spacing:0.04em;margin-right:40px;}
+
+    @media(max-width:768px){
+      nav{padding:0 20px;}
+      .nav-links{gap:20px;}
+      .page-header{padding:56px 20px 16px;margin-top:56px;}
+      .work-grid{grid-template-columns:1fr 1fr;}
+      .work-card:nth-child(3n){border-right:1px solid var(--rule);}
+      .work-card:nth-child(2n){border-right:none;}
+      .modal{min-height:100vh;}
+      .modal-header{
+      padding:36px 40px 28px;
+      border-bottom:1px solid var(--rule);
+      display:flex;justify-content:space-between;align-items:flex-start;
+      background:var(--white);
+    }
+      .modal-header-left{flex:1;min-width:0;}
+    .modal-client{font-size:clamp(28px,3.5vw,48px);font-weight:600;letter-spacing:-0.02em;line-height:1.1;color:var(--black);}
+    .modal-tagline{font-size:clamp(16px,2vw,28px);font-weight:300;color:var(--mid);margin-top:6px;line-height:1.25;letter-spacing:-0.01em;}
+    .modal-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:280px;padding-left:32px;flex-shrink:0;}
+    .modal-header .tag{border-color:var(--rule);color:var(--mid);}
+    .modal-body{grid-template-columns:1fr;}
+      .modal-section{border-right:none;padding:28px 20px;}
+      .modal-section:nth-child(3){border-bottom:1px solid var(--rule);}
+      footer{padding:20px;flex-direction:column;align-items:flex-start;gap:4px;}
+    }
+
+    /* ── MODAL MEDIA & META ── */
+    .modal-hero-media{width:100%;aspect-ratio:16/9;background:var(--black);overflow:hidden;}
+    .modal-hero-media img{width:100%;height:100%;object-fit:cover;display:block;}
+    .modal-hero-media video{width:100%;height:100%;object-fit:cover;display:block;}
+        /* Dual vertical video hero */
+    .modal-hero-dual-vertical{
+      width:100%;background:var(--black);
+      display:flex;justify-content:center;align-items:center;
+      overflow:hidden;max-height:75vh;gap:1px;
+    }
+    .modal-hero-dual-vertical video{
+      height:75vh;max-height:75vh;width:auto;display:block;flex:0 0 auto;
+    }
+    @media(max-width:768px){
+      .modal-hero-dual-vertical video{height:48vw;max-height:48vw;}
+    }
+    }
+    .modal-hero-vertical{
+      width:100%;background:#0d0d0d;
+      display:flex;justify-content:center;align-items:center;
+      overflow:hidden;max-height:75vh;
+    }
+    .modal-hero-vertical video{height:75vh;max-height:75vh;width:auto;display:block;}
+    .modal-meta{
+      display:flex;gap:48px;align-items:flex-start;
+      padding:20px 40px;
+      border-bottom:1px solid var(--rule);
+    }
+    .modal-meta-label{
+      font-size:10px;letter-spacing:0.16em;text-transform:uppercase;
+      color:var(--mid);margin-bottom:4px;
+    }
+    .modal-meta-value{font-size:13px;font-weight:400;color:var(--black);}
+    .modal-section:nth-child(3),.modal-section:nth-child(4){border-bottom:1px solid var(--rule);}
+    .modal-section-full{grid-column:1/-1;border-right:none;border-bottom:none;}
+    .modal-section a{color:var(--black);border-bottom:1px solid var(--rule);}
+    /* Photos section */
+    .modal-photos{background:var(--black);}
+    
+    .modal-photos-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:2px;
+      background:var(--black);
+    }
+    .modal-photo-item{
+      overflow:hidden;
+      background:var(--black);
+    }
+    .modal-photo-item:last-child{border-right:none;}
+    .modal-photo-item img{
+      width:100%;aspect-ratio:4/3;object-fit:cover;display:block;
+      transition:transform 0.4s ease;
+    }
+    .modal-photo-item:hover img{transform:scale(1.03);}
+    .modal-product-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:2px;
+      background:var(--black);
+    }
+    .modal-product-item{
+      overflow:hidden;
+      background:var(--black);
+    }
+    .modal-product-item:last-child{border-right:none;}
+    .modal-product-item img{
+      width:100%;aspect-ratio:3/4;object-fit:cover;display:block;
+      transition:transform 0.4s ease;
+    }
+    .modal-product-item:hover img{transform:scale(1.03);}
+    @media(max-width:768px){
+      .modal-meta{flex-direction:column;gap:16px;padding:20px;}
+      .modal-photos-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:2px;
+      background:var(--black);
+    }
+      .modal-photo-item:nth-child(2n){border-right:none;}
+      .modal-product-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:2px;
+      background:var(--black);
+    }
+      .modal-product-item:nth-child(2n){border-right:none;}
+      .modal-hero-vertical video{height:55vw;max-height:55vw;}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-logo"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAYABgAAD/4QF2RXhpZgAATU0AKgAAAAgABwESAAMAAAABAAEAAAEaAAUAAAABAAAAYgEbAAUAAAABAAAAagEoAAMAAAABAAIAAAExAAIAAACiAAAAcgE7AAIAAAAMAAABFIdpAAQAAAABAAABIAAAAAAAAABgAAAAAQAAAGAAAAABQ2FudmEgZG9jPURBSERUcVROT1Y0IHVzZXI9VUFHWWpGenJ4RW8gYnJhbmQ9V0hBVCBOT1cgdGVtcGxhdGU9Qm9sZCBJdGFsaWMgTXVsdGlwdXJwc2UgVHlwb2dyYXBoeSBMb2dvIERlc2lnbiBCcmFuZCBJZGVudGl0eSBDbGVhbiBDb21pYyBTdHlsZSBmb3IgRGVzaWduIENvbXBhbnkARXVuaWNlIFdhbmcAAAaQAAAHAAAABDAyMTCRAQAHAAAABAECAwCgAAAHAAAABDAxMDCgAQADAAAAAQABAACgAgAEAAAAAQAAAUCgAwAEAAAAAQAAAUAAAAAA/+EKB2h0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8APD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNi4wLjAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iPiA8ZGM6Y3JlYXRvcj4gPHJkZjpTZXE+IDxyZGY6bGk+RXVuaWNlIFdhbmc8L3JkZjpsaT4gPC9yZGY6U2VxPiA8L2RjOmNyZWF0b3I+IDxkYzp0aXRsZT4gPHJkZjpBbHQ+IDxyZGY6bGkgeG1sOmxhbmc9IngtZGVmYXVsdCI+TE9HTyAtIDE8L3JkZjpsaT4gPC9yZGY6QWx0PiA8L2RjOnRpdGxlPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8P3hwYWNrZXQgZW5kPSJ3Ij8+AP/tAGRQaG90b3Nob3AgMy4wADhCSU0EBAAAAAAALBwBWgADGyVHHAIAAAIAAhwCBQAITE9HTyAtIDEcAlAAC0V1bmljZSBXYW5nOEJJTQQlAAAAAAAQHx7+bDA8KiUEU+FInHqoWv/AABEIAUABQAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2wBDAAICAgICAgMCAgMFAwMDBQYFBQUFBggGBgYGBggKCAgICAgICgoKCgoKCgoMDAwMDAwODg4ODg8PDw8PDw8PDw//2wBDAQICAgQEBAcEBAcQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/3QAEABT/2gAMAwEAAhEDEQA/AP38ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/0P38ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/0f38ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/0v38ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/0/38ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/1P38ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/1f38ooooAKKKKAPz8/bX/bnl/Y31PwvBf+BJvE+neJ4bho7uO9W2WOa2ZA8RUxSZO2RWByM5PHFfIfgb/gtL4W8WeNdA8Lal8NZ9JtNYv7azlvG1RJBbpcSrGZSnkLuCbtxGRwOte2f8FfvhmfGn7Kh8X20Ze68D6pa33Ayfs9wfsso+gMqMfZa/lYR3jdZIyVZSCCOCCOhFAH9/QIIyKK8V/Zx+Ig+LHwG8BfEUkGXXdGs558drjywsw/CRWFe1UAfL/wC11+03o/7J3wkb4oarpTa68l9b2FvZJMLdppJ9zH5yr4CojN909Md6/Lf/AIfi6H/0SW5/8G6f/I1Z3/Bbz4hqIfhp8KID8zG81q4GewxbQce+Zvyr+fygD+vb9ij9vnQf2xtX8UaDbeF5PCt94cgtrlY5Ltbr7RFMzo7D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c7bVPxKyvj6V9qf8OPvAX/RU9T/8F0P/AMdr7j/Yx/YW8K/scS+KrvRPElz4luvFC2iPJc26QGGO08whVCM2dxkyfoKAPuyvy0/4K+fD/wD4S79kmfxNEm6fwbq1lf5HXyp2NpJ+syk/Sv1LrzL4zfC/SPjT8KvFHwq12drWy8T2Mtm8yKHeEuPklVTwWRgGAPcUAfwvaZqeoaLqFvq2k3D2l7aOssM0Z2vG6nIZSOhBqjX9Fn/Dj7wF/wBFT1P/AMF0P/x2p7b/AIIhfD6K4ilm+J+pSxo6syf2fCNyg5Iz5hxkcUAff3/BP34ar8LP2RPh1oUkZju9RsBq1yGGD5upMbnBHqqOq/hX2XVSwsbTS7G302wiENtaRpDFGvASOMBVUewAxVugAooooAKKKKAP/9X9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9b9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9f9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9D9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9H9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9L9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9k=" alt="WHAT NOW"></a>
+    <div class="nav-divider"></div>
+    <span class="nav-studio">What Now Studios</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="work.html" class="active">Work</a></li>
+    <li><a href="index.html#approach">Studio</a></li>
+    <li><a href="index.html#contact">Get in Touch</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <h1 class="page-title">Selected Work</h1>
+  <span class="page-count">5 Projects</span>
+</div>
+
+<div class="work-grid">
+  <div class="work-card" onclick="openModal('frequencies')">
+    <div class="work-img">
+      <img src="frequencies-02.JPG" alt="">
+    </div>
+    <div class="work-body">
+      <p class="work-year">2026</p>
+      <p class="work-client">Unapologetic Frequencies</p>
+      <p class="work-tagline">Positioning two emerging sensory products through one cultural environment.</p>
+      <div class="work-tags"><span class="tag">Brand Positioning</span><span class="tag">Cultural Launch</span><span class="tag">Experience Design</span><span class="tag">Spatial Concept</span><span class="tag">Consumer Tech</span><span class="tag">Los Angeles</span></div>
+    </div>
+  </div>
+  <div class="work-card" onclick="openModal('complexcon')">
+    <div class="work-img">
+      <img src="complexcon-01.jpg" alt="">
+    </div>
+    <div class="work-body">
+      <p class="work-year">2025</p>
+      <p class="work-client">ComplexCon Activation</p>
+      <p class="work-tagline">Translating automotive art and design-led technology for a high-attention cultural stage.</p>
+      <div class="work-tags"><span class="tag">Cultural Launch</span><span class="tag">Experience Design</span><span class="tag">Brand Partnerships</span><span class="tag">Consumer Tech</span><span class="tag">Automotive Art</span><span class="tag">Las Vegas</span></div>
+    </div>
+  </div>
+  <div class="work-card" onclick="openModal('boltbolt')">
+    <div class="work-img">
+      <img src="boltbolt-01.jpeg" alt="">
+    </div>
+    <div class="work-body">
+      <p class="work-year">2024</p>
+      <p class="work-client">BOLTBOLT (Gallery)</p>
+      <p class="work-tagline">Retail as launch infrastructure for design-led consumer technology.</p>
+      <div class="work-tags"><span class="tag">Retail Concept</span><span class="tag">Cultural Launch</span><span class="tag">Brand Partnerships</span><span class="tag">Consumer Tech</span><span class="tag">Art</span><span class="tag">Los Angeles</span></div>
+    </div>
+  </div>
+  <div class="work-card" onclick="openModal('keyboard')">
+    <div class="work-img">
+      <img src="keyboard-01.jpg" alt="">
+    </div>
+    <div class="work-body">
+      <p class="work-year">2026</p>
+      <p class="work-client">Angry Miao x Keeb Life</p>
+      <p class="work-tagline">Embedding a design-led product within enthusiast culture through community-based placement.</p>
+      <div class="work-tags"><span class="tag">Community Placement</span><span class="tag">Maker Culture</span><span class="tag">Product Framing</span><span class="tag">Consumer Tech</span><span class="tag">Los Angeles</span></div>
+    </div>
+  </div>
+  <div class="work-card" onclick="openModal('soloist')">
+    <div class="work-img">
+      <img src="soloist-01.JPG" alt="">
+    </div>
+    <div class="work-body">
+      <p class="work-year">2025</p>
+      <p class="work-client">TheSoloist.Sounds.</p>
+      <p class="work-tagline">Studio-produced content and strategic placement for a design-led audio object.</p>
+      <div class="work-tags"><span class="tag">Content Production</span><span class="tag">Cultural Framing</span><span class="tag">Partnership Placement</span><span class="tag">Fashion</span><span class="tag">Consumer Tech</span><span class="tag">Design</span><span class="tag">Los Angeles</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-project" id="modal-frequencies">
+      <!-- VERTICAL VIDEO: rename your file to "frequencies-hero.mp4" -->
+      <div class="modal-hero-dual-vertical">
+        <video autoplay muted loop playsinline src="frequencies-hero-01.mp4"></video>
+        <video autoplay muted loop playsinline src="frequencies-hero-02.mp4"></video>
+      </div>
+      <div class="modal-header">
+        <div class="modal-header-left">
+        <p class="modal-client">Unapologetic Frequencies</p>
+        <p class="modal-tagline">Positioning two emerging sensory products through one cultural environment.</p>
+      </div>
+        <div class="modal-tags">
+          <span class="tag">Brand Positioning</span>
+          <span class="tag">Cultural Launch</span>
+          <span class="tag">Experience Design</span>
+          <span class="tag">Spatial Concept</span>
+          <span class="tag">Consumer Tech</span>
+          <span class="tag">Los Angeles</span>
+        </div>
+      </div>
+      <div class="modal-meta">
+        <div class="modal-meta-item"><p class="modal-meta-label">Client</p><p class="modal-meta-value">IF Audio Studio<br>SensOn.ai</p></div>
+        <div class="modal-meta-item"><p class="modal-meta-label">Year</p><p class="modal-meta-value">2026</p></div>
+      
+      </div>
+      
+      <div class="modal-body">
+        <div class="modal-section">
+          <p class="modal-section-label">Context</p>
+          <p>IF AUDIO STUDIO&rsquo;s <a href="https://www.boltbolt.io/products/speaker-david-ii-rock?_pos=1&_sid=e066557f6&_ss=r" target="_blank" style="color:var(--black);border-bottom:1px solid var(--rule);">ROCK speaker</a> and <a href="https://senson.ai" target="_blank" style="color:var(--black);border-bottom:1px solid var(--rule);">SensOn</a>&rsquo;s AI-powered intimate device were both entering the market. Distinct in function but connected in emotional territory, they needed an introduction that could place them in culture before the market had language for either. More than explanation, both required an in-person environment people could feel.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">Challenge</p>
+          <p>Presenting both products together risked reducing them to novelty or treating them as unrelated hardware. A standard rollout would have explained each product&rsquo;s function, but missed the larger opportunity: building a shared context in which both made more sense together than apart.</p>
+          <br>
+          <p>The challenge was not visibility. It was <strong>framing.</strong></p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">Strategic Move</p>
+          <p>We built the launch around a central tension: <strong>connection in different directions.</strong></p>
+          <br>
+          <p>ROCK was framed as the outward frequency — a speaker that shifts the room, changes the energy, and pulls people into a shared emotional atmosphere. SensOn was framed as the inward frequency — a private, AI-powered device centered on self-connection, reflection, and intimacy.</p>
+          <br>
+          <p>Rather than separating the products by category, we positioned them as two expressions of the same emerging sensory landscape: one external, one internal; one collective, one personal.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">What We Built</p>
+          <ul>
+            <li>A shared in-person launch environment introducing both products within one cultural and sensory context</li>
+            <li>Spatial concept and product placement strategy for the dual-product debut</li>
+            <li>Positioning language connecting the two products through a unified emotional narrative</li>
+            <li>Audience curation and event framing for Los Angeles market entry</li>
+            <li>A two-week showroom display that extended the launch beyond one night</li>
+          </ul>
+        </div>
+        <div class="modal-section modal-section-full">
+          <p class="modal-section-label">Why It Mattered</p>
+          <p>The launch created a positioning story larger than either product alone. Rather than entering the market as two separate hardware objects, ROCK and SensOn were introduced as part of a broader conversation around sensory design, emotion, and connection. The event and follow-on display generated early traction beyond visibility alone: SensOn connected with seed users and secured key collaborations, while ROCK gained additional exposure through influencer alignment and partnership momentum.</p>
+        </div>
+      </div>
+      <div class="modal-photos">
+        <div class="modal-photos-grid">
+          <div class="modal-photo-item"><img src="frequencies-01.jpg" alt=""></div>
+          <div class="modal-photo-item"><img src="frequencies-02.JPG" alt=""></div>
+          <div class="modal-photo-item"><img src="frequencies-04.JPG" alt=""></div>
+          <div class="modal-photo-item"><img src="frequencies-05.jpg" alt=""></div>
+          <div class="modal-photo-item"><img src="frequencies-06.jpg" alt=""></div>
+          <div class="modal-photo-item"><img src="frequencies-07.jpg" alt=""></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-project" id="modal-complexcon">
+      <!-- VERTICAL VIDEO: rename your file to "complexcon-hero.mp4" -->
+      <div class="modal-hero-media">
+        <video autoplay muted loop playsinline src="complexcon-hero.mp4"></video>
+      </div>
+      <div class="modal-header">
+        <div class="modal-header-left">
+        <p class="modal-client">ComplexCon Activation</p>
+        <p class="modal-tagline">Translating automotive art and design-led technology for a high-attention cultural stage.</p>
+      </div>
+        <div class="modal-tags">
+          <span class="tag">Cultural Launch</span>
+          <span class="tag">Experience Design</span>
+          <span class="tag">Brand Partnerships</span>
+          <span class="tag">Consumer Tech</span>
+          <span class="tag">Automotive Art</span>
+          <span class="tag">Las Vegas</span>
+        </div>
+      </div>
+      <div class="modal-meta">
+        <div class="modal-meta-item"><p class="modal-meta-label">Client</p><p class="modal-meta-value"><a href="https://www.boltbolt.io" target="_blank" style="color:var(--black);border-bottom:1px solid var(--rule);">BOLTBOLT</a><br><a href="https://endofstaystudio.com/" target="_blank" style="color:var(--black);border-bottom:1px solid var(--rule);">end of S.T.A.Y.</a></p></div>
+        <div class="modal-meta-item"><p class="modal-meta-label">Year</p><p class="modal-meta-value">2025</p></div>
+      
+      </div>
+      
+      <div class="modal-body">
+        <div class="modal-section">
+          <p class="modal-section-label">Context</p>
+          <p>end of S.T.A.Y. was already gaining traction globally, but needed a stronger cultural entry point to elevate the brand in the US market. In collaboration with BOLTBOLT, we brought the project to ComplexCon Las Vegas — a setting where car culture, design, fashion, and public spectacle naturally converge.</p>
+          <br>
+          <p>At the same time, Nebula, BOLTBOLT&rsquo;s design-led speaker, needed greater visibility among culturally influential audiences. The activation created an opportunity to introduce both projects within a high-attention environment and build momentum through live interaction, strategic placement, and content circulation.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">Challenge</p>
+          <p>ComplexCon is a crowded and fast-moving platform where attention is earned quickly. For both end of S.T.A.Y. and Nebula, simply being present was not enough. The work required local execution, on-the-ground coordination, and a sharper public-facing strategy to turn physical presence into cultural traction.</p>
+          <br>
+          <p>The challenge was not just logistics. It was how to <strong>create visibility that carried weight beyond the event itself.</strong></p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">Strategic Move</p>
+          <p>We treated the activation as a live cultural entry point rather than a static display. For end of S.T.A.Y., the goal was to place the project inside the energy of automotive culture at ComplexCon and give it stronger public legibility through design, movement, and strategic exposure.</p>
+          <br>
+          <p>For Nebula, the goal was to place the speaker in front of culturally influential figures who could recognize it not just as a product, but as <strong>a design object with real point of view.</strong></p>
+          <br>
+          <p>On-site content, interviews, and collaboration moments helped build traction around the activation, allowing the project to travel beyond the booth and into broader social circulation.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">What We Built</p>
+          <ul>
+            <li>ComplexCon activation concept and on-site execution for end of S.T.A.Y. and BOLTBOLT</li>
+            <li>Exterior design direction for the featured end of S.T.A.Y. mini Porsche</li>
+            <li>Public-facing environment designed for automotive art, design culture, and consumer-tech crossover</li>
+            <li>On-site content and interview campaign to increase traction during the show</li>
+            <li>Visibility strategy for Nebula among culturally relevant tastemakers and collaborators</li>
+            <li>Post-event content assets that extended the activation beyond the live moment</li>
+          </ul>
+        </div>
+        <div class="modal-section modal-section-full">
+          <p class="modal-section-label">Why It Mattered</p>
+          <p>The activation gave end of S.T.A.Y. a stronger cultural entry point within one of the most visible intersections of car culture, design, and contemporary consumer attention. Daniel Arsham&rsquo;s in-person activation of the end of S.T.A.Y. mini Porsche added a powerful layer of cultural relevance and public attention. The brand gained exposure through Complex&rsquo;s main social channels, elevating end of S.T.A.Y. across millions of impressions and expanding its visibility far beyond the event floor.</p>
+          <br>
+          <p>For BOLTBOLT and Nebula, the project generated both social and brand value. Salehe Bembury became an early supporter of Nebula, offering meaningful cultural validation and helping frame the speaker as more than a product — as a design object with relevance inside a broader creative conversation. Together, the activation created long-tail visibility, stronger social proof, and a more credible cultural position for both brands.</p>
+        </div>
+      </div>
+      <div class="modal-photos">
+        <div class="modal-photos-grid">
+          <div class="modal-photo-item"><img src="complexcon-01.jpg" alt=""></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-project" id="modal-boltbolt">
+      <!-- HERO IMAGE: rename your file to "boltbolt-hero.jpg" -->
+      <div class="modal-hero-media">
+        <video autoplay muted loop playsinline src="boltbolt-hero.mp4"></video>
+      </div>
+      <div class="modal-header">
+        <div class="modal-header-left">
+        <p class="modal-client">BOLTBOLT (Gallery)</p>
+        <p class="modal-tagline">Retail as launch infrastructure for design-led consumer technology.</p>
+      </div>
+        <div class="modal-tags">
+          <span class="tag">Retail Concept</span>
+          <span class="tag">Cultural Launch</span>
+          <span class="tag">Brand Partnerships</span>
+          <span class="tag">Consumer Tech</span>
+          <span class="tag">Art</span>
+          <span class="tag">Los Angeles</span>
+        </div>
+      </div>
+      <div class="modal-meta">
+        <div class="modal-meta-item"><p class="modal-meta-label">Client</p><p class="modal-meta-value"><a href="https://www.boltbolt.io" target="_blank" style="color:var(--black);border-bottom:1px solid var(--rule);">BOLTBOLT</a></p></div>
+        <div class="modal-meta-item"><p class="modal-meta-label">Year</p><p class="modal-meta-value">2024</p></div>
+      
+      </div>
+      
+      <div class="modal-body">
+        <div class="modal-section">
+          <p class="modal-section-label">Context</p>
+          <p>BOLTBOLT began with a point of view around consumer technology, design, and product development, but quickly ran into a larger market problem: many design-led tech products are difficult to understand through traditional retail or online presentation alone. They need to be seen in person, experienced spatially, and introduced with cultural context.</p>
+          <br>
+          <p>Los Angeles — especially the Arts District — offered the right environment: a dense, walkable concentration of designers, architects, collectors, and culturally aware consumers. BOLTBOLT&rsquo;s physical space was created to turn that insight into a public-facing platform.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">Challenge</p>
+          <p>Standard retail does little to build belief in an unfamiliar product category. For design-led consumer technology, the barrier is often not availability but <strong>legibility</strong>: people need help understanding what they are looking at, how it fits into their lives, and why it matters.</p>
+          <br>
+          <p>Most tech products rarely have meaningful in-person environments, and conventional stores tend to flatten them into inventory rather than experience. The risk was opening a store that functioned as a sales floor, but not as a reason to visit.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">Strategic Move</p>
+          <p>We designed BOLTBOLT less as a conventional store and more as a <strong>brand introduction environment</strong> — a place where products could be framed through space, curation, and programming. The goal was not only to sell objects, but to make an emerging category feel real, desirable, and culturally legible.</p>
+          <br>
+          <p>Product selection was paired with artist collaborations, in-store placements, recurring gatherings, and small-format programming throughout the year, allowing the space to function as both showroom and cultural touchpoint.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">What We Built</p>
+          <ul>
+            <li>Full retail buildout, from lease negotiation to opening</li>
+            <li>Spatial design and merchandising for a design-led tech showroom</li>
+            <li>A year-round program of collaborations, artist placements, and community gatherings</li>
+            <li>In-store partnerships across brands and artists including IF AUDIO STUDIO, end of S.T.A.Y., Takahiromiyashita TheSoloist, Daniel Arsham, Yulong, AWHITE, Crash Baggage, Dos Santos Collective, Joy Extreme, Angry Miao, ROBBi, and Sharge</li>
+            <li>Studio-produced content and cultural framing that extended the space beyond display into narrative</li>
+          </ul>
+        </div>
+        <div class="modal-section modal-section-full">
+          <p class="modal-section-label">Why It Mattered</p>
+          <p>BOLTBOLT turned physical retail into launch infrastructure. Instead of asking emerging products to compete on specs alone, the space gave them atmosphere, narrative, and cultural context. It created a rare in-person environment for design-led consumer technology — one where people could encounter products through curation, conversation, and experience rather than transactional display alone.</p>
+          <br>
+          <p>In doing so, BOLTBOLT expanded beyond product into cultural experience: part showroom, part introduction, part testing ground for how new objects earn attention, meaning, and belief in the real world.</p>
+        </div>
+      </div>
+      <div class="modal-photos">
+        <div class="modal-photos-grid">
+          <div class="modal-photo-item"><img src="boltbolt-01.jpeg" alt=""></div>
+          <div class="modal-photo-item"><img src="boltbolt-02.jpeg" alt=""></div>
+        </div>
+        </div>
+      </div>
+    <div class="modal-project" id="modal-keyboard">
+      <div class="modal-hero-media">
+        <img src="keyboard-hero.jpg" alt="Angry Miao x Keeb Life">
+      </div>
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <p class="modal-client">Angry Miao x Keeb Life</p>
+          <p class="modal-tagline">Embedding a design-led product within enthusiast culture through community-based placement.</p>
+        </div>
+        <div class="modal-tags">
+          <span class="tag">Community Placement</span>
+          <span class="tag">Maker Culture</span>
+          <span class="tag">Product Framing</span>
+          <span class="tag">Consumer Tech</span>
+          <span class="tag">Los Angeles</span>
+        </div>
+      </div>
+      <div class="modal-meta">
+        <div class="modal-meta-item"><p class="modal-meta-label">Client</p><p class="modal-meta-value">Angry Miao<br>Keeb Life</p></div>
+        <div class="modal-meta-item"><p class="modal-meta-label">Year</p><p class="modal-meta-value">2026</p></div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <p class="modal-section-label">Context</p>
+          <p>Angry Miao needed stronger in-person exposure within Los Angeles, while BOLTBOLT was looking to create more community-driven experiences around design-led consumer technology. The mechanical keyboard scene offered the right context: a niche but highly influential community shaped by customization, technical knowledge, and strong aesthetic taste.</p>
+          <br>
+          <p>Rather than introducing the product through conventional retail or top-down marketing, the opportunity was to place it inside a gathering where people already cared deeply about objects, build quality, form, and feel.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">Challenge</p>
+          <p>Keyboard enthusiasts have built their own language, standards, and taste filters. In this context, showing up as a sponsor or exhibitor can easily read as intrusion. Products are judged closely, and credibility has to be earned through participation, not branding.</p>
+          <br>
+          <p>The challenge was to create an entry point that felt <strong>native to the community rather than imposed from outside it.</strong></p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">Strategic Move</p>
+          <p>We embedded the product within a community gathering as a participant, not a pitch. Instead of presenting Angry Miao as a brand looking for attention, we framed it as a design-led object belonging in the same conversation as the tools, builds, and custom pieces the community already valued.</p>
+          <br>
+          <p>This turned the activation into a <strong>cross-brand, community-based experience</strong> — one that allowed the product to be encountered through curiosity, interaction, and peer context rather than direct promotion.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">What We Built</p>
+          <ul>
+            <li>Community placement strategy within the Los Angeles mechanical keyboard scene</li>
+            <li>A cross-brand gathering format with Keeb Life designed around participation and shared interest</li>
+            <li>Product demonstration moments that encouraged hands-on interaction and conversation</li>
+            <li>An in-person environment that let the product sit naturally within a maker-driven community</li>
+            <li>Audience feedback and community response that informed future positioning</li>
+          </ul>
+        </div>
+        <div class="modal-section modal-section-full">
+          <p class="modal-section-label">Why It Mattered</p>
+          <p>The activation gave Angry Miao a stronger in-person entry into a niche community whose influence extends far beyond its size. Mechanical keyboard enthusiasts are not just consumers — they are builders, modifiers, and highly opinionated tastemakers. In a category shaped by peer review and hands-on experience, in-person contact creates a different kind of value: direct interaction, product scrutiny, and deeper community resonance.</p>
+          <br>
+          <p>For BOLTBOLT, the project reinforced the space as a platform for community-based product introduction — not just display, but participation.</p>
+        </div>
+      </div>
+      <div class="modal-photos">
+        <div class="modal-photos-grid">
+          <div class="modal-photo-item"><img src="keyboard-01.jpg" alt=""></div>
+          <div class="modal-photo-item"><img src="keyboard-02.jpg" alt=""></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-project" id="modal-soloist">
+      <div class="modal-hero-media">
+        <img src="soloist-01.JPG" alt="TheSoloist.Sounds.">
+      </div>
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <p class="modal-client">TheSoloist.Sounds. Cultural Placement</p>
+          <p class="modal-tagline">Studio-produced content and strategic placement for a design-led audio object.</p>
+        </div>
+        <div class="modal-tags">
+          <span class="tag">Content Production</span>
+          <span class="tag">Cultural Framing</span>
+          <span class="tag">Partnership Placement</span>
+          <span class="tag">Fashion</span>
+          <span class="tag">Consumer Tech</span>
+          <span class="tag">Design</span>
+          <span class="tag">Los Angeles</span>
+        </div>
+      </div>
+      <div class="modal-meta">
+        <div class="modal-meta-item"><p class="modal-meta-label">Client</p><p class="modal-meta-value">TheSoloist.</p></div>
+        <div class="modal-meta-item"><p class="modal-meta-label">Year</p><p class="modal-meta-value">2025</p></div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <p class="modal-section-label">Context</p>
+          <p>TheSoloist.Sounds. needed broader visibility in Los Angeles beyond standard product presentation. As a sculptural speaker by Takahiro Miyashita, the object already carried strong design value, but its significance was still most legible to insiders. The opportunity was to expand its presence through cultural context, strategic placement, and content that could introduce it to the right audience in a more resonant way.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">Challenge</p>
+          <p>The challenge was not simply awareness. It was <strong>translation.</strong> TheSoloist.Sounds. already had strong design integrity, but without the right context, it risked being read as a niche product rather than a cultural object. Standard product photography could document the form, but not build the world around it.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">Strategic Move</p>
+          <p>We approached the project through cultural placement rather than conventional promotion. Instead of treating the speaker as a standalone product, we built visibility through three connected moves: studio-produced content in Los Angeles, physical placement within an aligned fashion and design environment, and digital amplification through a trusted design platform.</p>
+          <br>
+          <p>By producing content at Archived in LA, we gave the object a more credible visual and cultural setting. By securing placement on Basic.Space, we positioned it within a broader design and luxury ecosystem. Cross-promotion through Basic.Space&rsquo;s social channels then helped extend the product beyond a static listing into broader public circulation.</p>
+        </div>
+        <div class="modal-section">
+          <p class="modal-section-label">What We Built</p>
+          <ul>
+            <li>Studio-produced photography and content at Archived Studio in Los Angeles</li>
+            <li>Cultural placement strategy designed to expand the product&rsquo;s presence in LA</li>
+            <li>Product placement on Basic.Space within a design-led luxury retail environment</li>
+            <li>Cross-promotional visibility through Basic.Space&rsquo;s social channels</li>
+            <li>A content and placement system that framed the speaker as a cultural object, not just an audio product</li>
+          </ul>
+        </div>
+        <div class="modal-section modal-section-full">
+          <p class="modal-section-label">Why It Mattered</p>
+          <p>The project expanded TheSoloist.Sounds. through two complementary forms of placement: an in-person fashion showroom experience in Los Angeles through Archived Studio, and a design-led online distribution channel through Basic.Space. The first gave the object physical cultural context; the second gave it scale.</p>
+          <br>
+          <p>Together, they helped position the speaker not simply as a product, but as a sculptural object with aesthetic and cultural relevance. Basic.Space placement and social amplification generated hundreds of thousands of impressions, extending the product&rsquo;s reach while keeping it within the right frame.</p>
+        </div>
+      </div>
+      <div class="modal-photos">
+        <div class="modal-photos-grid">
+          <div class="modal-photo-item"><img src="soloist-01.JPG" alt=""></div>
+        </div>
+        <div class="modal-hero-vertical">
+          <video autoplay muted loop playsinline src="soloist-hero.mp4"></video>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var projects = {'frequencies':'modal-frequencies','complexcon':'modal-complexcon','boltbolt':'modal-boltbolt','keyboard':'modal-keyboard','soloist':'modal-soloist'};
+  function openModal(key){
+    document.querySelectorAll('.modal-project').forEach(function(el){el.style.display='none';});
+    document.getElementById(projects[key]).style.display='block';
+    var o=document.getElementById('modalOverlay');
+    o.classList.add('open');o.scrollTop=0;
+    document.body.style.overflow='hidden';
+  }
+  function closeModal(){
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow='';
+  }
+  document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>
