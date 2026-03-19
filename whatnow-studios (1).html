@@ -862,7 +862,7 @@
 <section id="contact">
   <div class="contact-body">
     <p class="contact-label">Get in touch</p>
-    <a href="mailto:hello@whatnow.works" class="contact-email">hello@whatnow.works</a>
+    <a href="/cdn-cgi/l/email-protection#3e565b5252517e49565f4a5051491049514c554d" class="contact-email"><span class="__cf_email__" data-cfemail="82eae7eeeeedc2f5eae3f6ecedf5acf5edf0e9f1">[email&#160;protected]</span></a>
     <a href="#start" class="contact-start">Start a project &rarr;</a>
   </div>
 </section>
@@ -930,7 +930,7 @@
 </footer>
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function() {
   var form = document.getElementById('projectForm');
   if (!form) return;
@@ -1018,8 +1018,8 @@
     <div class="modal-project" id="modal-frequencies">
       <!-- VERTICAL VIDEO: rename your file to "frequencies-hero.mp4" -->
       <div class="modal-hero-dual-vertical">
-        <video autoplay loop playsinline src="frequencies-hero-01.mp4"></video>
-        <video autoplay loop playsinline src="frequencies-hero-02.mp4"></video>
+        <video autoplay muted loop playsinline src="frequencies-hero-01.mp4"></video>
+        <video autoplay muted loop playsinline src="frequencies-hero-02.mp4"></video>
       </div>
       <div class="modal-header">
         <div class="modal-header-left">
@@ -1089,7 +1089,7 @@
     <div class="modal-project" id="modal-complexcon">
       <!-- VERTICAL VIDEO: rename your file to "complexcon-hero.mp4" -->
       <div class="modal-hero-media">
-        <video autoplay loop playsinline src="complexcon-hero.mp4"></video>
+        <video autoplay muted loop playsinline src="complexcon-hero.mp4"></video>
       </div>
       <div class="modal-header">
         <div class="modal-header-left">
@@ -1159,7 +1159,7 @@
     <div class="modal-project" id="modal-boltbolt">
       <!-- HERO IMAGE: rename your file to "boltbolt-hero.jpg" -->
       <div class="modal-hero-media">
-        <video autoplay loop playsinline src="boltbolt-hero.mp4"></video>
+        <video autoplay muted loop playsinline src="boltbolt-hero.mp4"></video>
       </div>
       <div class="modal-header">
         <div class="modal-header-left">
@@ -1316,9 +1316,3 @@
     else if (!isValidEmail(emailInput.value)) { showError(emailInput, 'Please enter a valid email address.'); valid = false; }
     else clearError(emailInput);
 
-    if (descInput.value.trim().length < 10) { showError(descInput, 'Please tell us a bit more about your project.'); valid = false; }
-    else clearError(descInput);
-
-    if (!valid) {
-      e.preventDefault();
-      var firstError = form.quer
